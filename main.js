@@ -14,6 +14,25 @@ ctx.lineWidth = 5
 
 let draw = false
 
+// selects everything with the .clr class
+let clrs = document.querySelectorAll(".clr")
+
+// converts Nodelist (node = html element) to Array (stores multiple items under one variable name)
+clrs = Array.from(clrs)
+
+clrs.forEach(clr => {
+    clr.addEventListener("click", () => {
+        ctx.strokeStyle = clr.dataset.clr
+    })
+})
+
+// clear button vvv
+let clearBtn = document.querySelector(".clear")
+clearBtn.addEventListener("click", () => {
+    // clears entire canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+})
+
 // only draw when mouse is pressed
 window.addEventListener("mousedown", (e) => draw = true)
 
@@ -44,3 +63,8 @@ window.addEventListener("mousemove", (e) => {
     prevX = currentX
     prevY = currentY
 })
+
+// undo and redo
+
+let undoBtn = document.querySelector(".undo")
+let redoBtn = document.querySelector(".redo")

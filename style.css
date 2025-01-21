@@ -20,9 +20,9 @@
     justify-content: space-around;
     align-items: center;
     position: fixed;
-    width: 75%;
+    width: 100%;
     height: 7%;
-    top: 0;
+    top: 3%;
     left: 50%;
     transform: translateX(-50%);
     opacity: .5;
@@ -34,8 +34,8 @@
 }
 
 .clr {
-    height: 50px;
-    width: 50px;
+    height: 3vw;
+    width: 3vw;
     background-color: blue;
     border-radius: 50%;
     border: 3px solid var(--gray);
@@ -46,35 +46,35 @@
     transform: scale(1.2);
 }
 
-.clr:nth-child(1) {
+.clr:nth-child(3) {
     background-color: var(--black);
 }
 
-.clr:nth-child(2) {
+.clr:nth-child(4) {
     background-color: var(--red);
 }
 
-.clr:nth-child(3) {
+.clr:nth-child(5) {
     background-color: var(--orange);
 }
 
-.clr:nth-child(4) {
+.clr:nth-child(6) {
     background-color: var(--yellow);
 }
 
-.clr:nth-child(5) {
+.clr:nth-child(7) {
     background-color: var(--green);
 }
 
-.clr:nth-child(6) {
+.clr:nth-child(8) {
     background-color: var(--blue);
 }
 
-.clr:nth-child(7) {
+.clr:nth-child(9) {
     background-color: var(--purple);
 }
 
-.clr:nth-child(8) {
+.clr:nth-child(10) {
     background-color: var(--white);
 }
 
@@ -85,6 +85,7 @@ button {
     border-radius: 3px;
     background-color: var(--red);
     color: var(--white);
+    font-size: 1.5vw;
 }
 
 .save {
