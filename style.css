@@ -2,3 +2,91 @@
     margin: 0;
     padding: 0;
 }
+
+:root {
+    --red: #EB5160;
+    --orange: #FF9505;
+    --yellow: #FFB627;
+    --green: #85CB33;
+    --blue: #48ACF0;
+    --purple: #802392;
+    --white: #fff;
+    --black: #000;
+    --gray: #7b7b7b;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    width: 75%;
+    height: 7%;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: .5;
+    transition: opacity .5s;
+}
+
+.nav:hover {
+    opacity: 1;
+}
+
+.clr {
+    height: 50px;
+    width: 50px;
+    background-color: blue;
+    border-radius: 50%;
+    border: 3px solid var(--gray);
+    transition: transform .5s;
+}
+
+.clr:hover {
+    transform: scale(1.2);
+}
+
+.clr:nth-child(1) {
+    background-color: var(--black);
+}
+
+.clr:nth-child(2) {
+    background-color: var(--red);
+}
+
+.clr:nth-child(3) {
+    background-color: var(--orange);
+}
+
+.clr:nth-child(4) {
+    background-color: var(--yellow);
+}
+
+.clr:nth-child(5) {
+    background-color: var(--green);
+}
+
+.clr:nth-child(6) {
+    background-color: var(--blue);
+}
+
+.clr:nth-child(7) {
+    background-color: var(--purple);
+}
+
+.clr:nth-child(8) {
+    background-color: var(--white);
+}
+
+button {
+    border: none;
+    outline: none;
+    padding: 2% 4%;
+    border-radius: 3px;
+    background-color: var(--red);
+    color: var(--white);
+}
+
+.save {
+    background-color: var(--blue);
+}
