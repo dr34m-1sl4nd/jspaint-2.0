@@ -1,3 +1,4 @@
+// size of canvas shifts with window
 const canvas = document.getElementById("canvas")
 canvas.height = window.innerHeight
 canvas.width = window.innerWidth
@@ -41,7 +42,7 @@ window.addEventListener("mouseup", (e) => draw = false)
 
 window.addEventListener("mousemove", (e) => {
     // initially previous mouse positions are null
-    // so we can't draw a line
+    // so you can't draw a line
     if(prevX == null || prevY == null || !draw){
         // Set the previous mouse positions to the current mouse positions
         prevX = e.clientX
@@ -63,8 +64,3 @@ window.addEventListener("mousemove", (e) => {
     prevX = currentX
     prevY = currentY
 })
-
-// undo and redo
-
-let undoBtn = document.querySelector(".undo")
-let redoBtn = document.querySelector(".redo")

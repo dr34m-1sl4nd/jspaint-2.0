@@ -34,8 +34,8 @@
 }
 
 .clr {
-    height: 2vw;
-    width: 2vw;
+    height: 3vw;
+    width: 3vw;
     background-color: blue;
     border-radius: 50%;
     border: 3px solid var(--gray);
