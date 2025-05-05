@@ -5,6 +5,8 @@ canvas.width = window.innerWidth
 
 const ctx = canvas.getContext("2d")
 
+let drawHistory = [];
+
 // previous mouse positions
 // They will be null initially
 let prevX = null
@@ -34,8 +36,22 @@ clearBtn.addEventListener("click", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 })
 
+let undoBtn = document.querySelector(".undo")
+undoBtn.addEventListener("click", () => {
+    drawHistory.length -= 1;
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    for (const drawPath of drawHistory) {
+        ctx.beginPath()
+        ctx.moveTo(drawPath.lastX, drawPath.lastY)
+        ctx.lineTo(drawPath.currentX, drawPath.currentY)
+        ctx.stroke()
+    }
+})
 // only draw when mouse is pressed
-window.addEventListener("mousedown", (e) => draw = true)
+window.addEventListener("mousedown", (e) => {
+    draw = true;
+    drawHistory.push([{currentX: e.clientX, currentY: e.clientY, lastX: prevX, lastY: prevY, clr: ctx.strokeStyle}])
+})
 
 // stop drawing when mouse is released
 window.addEventListener("mouseup", (e) => draw = false)
@@ -53,6 +69,8 @@ window.addEventListener("mousemove", (e) => {
     // Current mouse position
     let currentX = e.clientX
     let currentY = e.clientY
+
+    drawHistory[drawHistory.length-1].push({currentX: e.clientX, currentY: e.clientY, lastX: prevX, lastY: prevY, clr: ctx.strokeStyle})
 
     // drawing line from prev. position
     ctx.beginPath()
