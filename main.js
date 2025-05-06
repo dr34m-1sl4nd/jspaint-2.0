@@ -6,6 +6,7 @@ canvas.width = window.innerWidth
 const ctx = canvas.getContext("2d")
 
 let drawHistory = [];
+let undoHistory = [];
 
 // previous mouse positions
 // They will be null initially
@@ -29,34 +30,70 @@ clrs.forEach(clr => {
     })
 })
 
-// clear button vvv
+// clear button
 let clearBtn = document.querySelector(".clear")
 clearBtn.addEventListener("click", () => {
     // clears entire canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+    // resets the drawHistory
+    drawHistory = [];
+    undoHistory = [];
 })
 
+// draws each stroke from an array of strokes (which are an object of x, y, and colors)
+function drawArray(array) {
+    // resets the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    // draws each stroke
+    for (let i = 0; i < array.length; i++) {
+        const stroke = array[i];
+        // draws each path in stroke
+        for (let j = 1; j < stroke.length; j++) {
+            const drawPath = stroke[j];
+            ctx.strokeStyle = drawPath.clr;
+            ctx.beginPath();
+            ctx.moveTo(stroke[j-1].currentX, stroke[j-1].currentY)
+            ctx.lineTo(drawPath.currentX, drawPath.currentY)
+            ctx.stroke()
+        }
+    }
+}
+
+// undoes the last stroke
 let undoBtn = document.querySelector(".undo")
 undoBtn.addEventListener("click", () => {
-    drawHistory.length -= 1;
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    for (const drawPath of drawHistory) {
-        ctx.beginPath()
-        ctx.moveTo(drawPath.lastX, drawPath.lastY)
-        ctx.lineTo(drawPath.currentX, drawPath.currentY)
-        ctx.stroke()
-    }
+    // if there is nothing on canvas, do nothing
+    if (drawHistory.length <= 0) return;
+    // moves the last stroke from drawHistory to undoHistory
+    undoHistory.push(drawHistory.pop())
+    // draws the newly modified drawHistory
+    drawArray(drawHistory);
 })
+
+// redos the last undo
+let redo = document.querySelector(".redo")
+redo.addEventListener("click", () => {
+    // if there is nothing in undoHistory, do nothing
+    if (undoHistory.length === 0) return;
+    // moves the last stroke from undoHistory to drawHistory
+    drawHistory.push(undoHistory.pop())
+    // draws the newly modified drawHistory
+    drawArray(drawHistory);
+})
+
 // only draw when mouse is pressed
-window.addEventListener("mousedown", (e) => {
+canvas.addEventListener("mousedown", (e) => {
     draw = true;
-    drawHistory.push([{currentX: e.clientX, currentY: e.clientY, lastX: prevX, lastY: prevY, clr: ctx.strokeStyle}])
+    // adds the start of the stroke to drawHistory
+    drawHistory.push([{currentX: e.clientX, currentY: e.clientY, clr: ctx.strokeStyle}])
+    // resets the undoHistory, so redo does not add the previous undo
+    undoHistory = [];
 })
 
 // stop drawing when mouse is released
-window.addEventListener("mouseup", (e) => draw = false)
+canvas.addEventListener("mouseup", (e) => draw = false)
 
-window.addEventListener("mousemove", (e) => {
+canvas.addEventListener("mousemove", (e) => {
     // initially previous mouse positions are null
     // so you can't draw a line
     if(prevX == null || prevY == null || !draw){
@@ -70,7 +107,8 @@ window.addEventListener("mousemove", (e) => {
     let currentX = e.clientX
     let currentY = e.clientY
 
-    drawHistory[drawHistory.length-1].push({currentX: e.clientX, currentY: e.clientY, lastX: prevX, lastY: prevY, clr: ctx.strokeStyle})
+    // adds current position to the active stroke
+    drawHistory[drawHistory.length-1].push({currentX: e.clientX, currentY: e.clientY, clr: ctx.strokeStyle})
 
     // drawing line from prev. position
     ctx.beginPath()
