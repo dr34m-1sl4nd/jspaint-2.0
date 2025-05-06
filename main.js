@@ -60,26 +60,44 @@ function drawArray(array) {
 }
 
 // undoes the last stroke
-let undoBtn = document.querySelector(".undo")
-undoBtn.addEventListener("click", () => {
+function undo() {
     // if there is nothing on canvas, do nothing
     if (drawHistory.length <= 0) return;
     // moves the last stroke from drawHistory to undoHistory
     undoHistory.push(drawHistory.pop())
     // draws the newly modified drawHistory
     drawArray(drawHistory);
-})
+}
 
-// redos the last undo
-let redo = document.querySelector(".redo")
-redo.addEventListener("click", () => {
+// redoes the last undo
+function redo() {
     // if there is nothing in undoHistory, do nothing
     if (undoHistory.length === 0) return;
     // moves the last stroke from undoHistory to drawHistory
     drawHistory.push(undoHistory.pop())
     // draws the newly modified drawHistory
     drawArray(drawHistory);
-})
+}
+
+// undoes the last stroke
+let undoBtn = document.querySelector(".undo")
+undoBtn.addEventListener("click", undo)
+
+// redoes the last undo
+let redoBtn = document.querySelector(".redo")
+redoBtn.addEventListener("click", redo)
+
+// key handler
+document.addEventListener('keydown', function(event) {
+    // ctrl + z -> undo()
+    if (event.ctrlKey && (event.key === 'z' || event.key === 'Z')) {
+        undo()
+    } 
+    // ctrl + y -> redo()
+    else if (event.ctrlKey && (event.key === 'y' || event.key === 'Y')) {
+        redo()
+    } 
+});
 
 // only draw when mouse is pressed
 canvas.addEventListener("mousedown", (e) => {
